@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我們的生活共識問卷 🤎</title>
+    <style>
+        /* 文青木質調配色 */
+        :root {
+            --bg-color: #F7F5F0;       /* 溫暖米白 */
+            --card-bg: #FFFFFF;        /* 純白卡片 */
+            --primary-color: #8C7A6B;  /* 木質深褐 */
+            --secondary-color: #B5A494;/* 柔和淺褐 */
+            --text-color: #4A3E3D;     /* 炭褐字體 */
+            --accent-color: #D9C3B0;   /* 奶油色 */
+            --girl-color: #E6D5CD;     /* 女方區塊微調色 */
+            --boy-color: #DFE3E6;      /* 男方區塊微調色 */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 2px dashed var(--accent-color);
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+
+        /* 卡片設計 */
+        .q-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(140, 122, 107, 0.08);
+            border: 1px solid rgba(181, 164, 148, 0.2);
+        }
+
+        .q-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .q-number {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* 輸入區域 */
+        .answer-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--secondary-color);
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            background-color: #FAF9F6;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #FFF;
+        }
+
+        /* 按鈕 */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(140, 122, 107, 0.3);
+            transition: background 0.2s;
+        }
+
+        .btn-submit:active {
+            background-color: #736356;
+        }
+
+        /* 報告輸出區域 */
+        #result-area {
+            display: none;
+            margin-top: 40px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .result-header {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #EFEFEF;
+        }
+
+        .result-q {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .res-box {
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .res-girl { background-color: var(--girl-color); }
+        .res-boy { background-color: var(--boy-color); }
+        .res-title { font-size: 0.75rem; font-weight: bold; margin-bottom: 2px; color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🤎 同居生活共識問卷</h1>
+        <p>好好聊聊，是為了交織出更舒適的日常</p>
+    </header>
+
+    <form id="quiz-form">
+        <!-- 題目會由 JavaScript 自動生成 -->
+        <div id="questions-container"></div>
+
+        <button type="button" class="btn-submit" onclick="generateReport()">✨ 產生雙人共識報告</button>
+    </form>
+
+    <!-- 結果展示 -->
+    <div id="result-area">
+        <div class="result-header">
+            <h2>📜 我們的生活共識報告</h2>
+            <p>恭喜完成！可以截圖保存或對答案喔</p>
+        </div>
+        <div id="report-content"></div>
+    </div>
+</div>
+
+<script>
+    // 21 題題目清單
+    const questions = [
+        "對於日常消費，如吃飯/約會誰付錢的想法？",
+        "關於共同錢包（採購日常用品/買菜等），你的想法？",
+        "希望外食與下廚的開銷分配？",
+        "希望家事如何運作？",
+        "對於雜物亂丟的容忍度？",
+        "對於地面整潔的容忍度？",
+        "水槽裡的碗盤可以留多久？",
+        "關於洗衣服的細節習慣？",
+        "當作息不一致時，希望對方怎麼做？",
+        "我需要「貓咪時間」不要打擾的訊號？",
+        "情緒低落時，希望對方...",
+        "對於共享行事曆你的想法是？",
+        "朋友想來家裡玩，提前多久告知？",
+        "關於「朋友留宿」的頻率與規定？",
+        "吵架時絕對不可以做的事？",
+        "吵架需要冷靜時間嗎？多久？",
+        "是否同意不帶情緒過夜？",
+        "同居後的儀式感，為我們儲存甜蜜金幣？",
+        "你會如何定義一起住？對接下來的期待",
+        "希望為期多久的同居？何時回頭檢視？",
+        "若未來發現真的不適合，退場機制是？"
+    ];
+
+    const container = document.getElementById('questions-container');
+
+    // 自動渲染 21 題卡片
+    questions.forEach((q, index) => {
+        const qNum = index + 1;
+        const card = document.createElement('div');
+        card.className = 'q-card';
+        card.innerHTML = `
+            <div class="q-title">
+                <span class="q-number">${qNum}</span>
+                <div>${q}</div>
+            </div>
+            <div class="answer-group">
+                <div class="input-box">
+                    <label>女生 👩‍🦰</label>
+                    <textarea id="g-${qNum}" rows="2" placeholder="輸入妳的想法..."></textarea>
+                </div>
+                <div class="input-box">
+                    <label>男生 👦</label>
+                    <textarea id="b-${qNum}" rows="2" placeholder="輸入你的想法..."></textarea>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    // 產生報告的邏輯
+    function generateReport() {
+        const reportContent = document.getElementById('report-content');
+        reportContent.innerHTML = ''; // 清空舊內容
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const girlAns = document.getElementById(`g-${qNum}`).value || "未填寫";
+            const boyAns = document.getElementById(`b-${qNum}`).value || "未填寫";
+
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-q">${qNum}. ${q}</div>
+                <div class="result-grid">
+                    <div class="res-box res-girl">
+                        <div class="res-title">女生 👩‍🦰</div>
+                        <div>${girlAns.replace(/\n/g, '<br>')}</div>
+                    </div>
+                    <div class="res-box res-boy">
+                        <div class="res-title">男生 👦</div>
+                        <div>${boyAns.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+            `;
+            reportContent.appendChild(item);
+        });
+
+        // 顯示結果區域並滾動到該處
+        const resultArea = document.getElementById('result-area');
+        resultArea.style.display = 'block';
+        resultArea.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
